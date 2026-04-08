@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوصلة مهارات المستقبل | جامعة جازان</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+        
+        :root {
+            --royal-blue: #074191;
+            --dark-navy: #1F253D;
+            --gold-orange: #FFBD59;
+            --bright-gold: #FFCA45;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        .bg-royal-blue { background-color: var(--royal-blue); }
+        .text-royal-blue { color: var(--royal-blue); }
+        .bg-dark-navy { background-color: var(--dark-navy); }
+        .border-gold { border-color: var(--gold-orange); }
+        .text-gold { color: var(--gold-orange); }
+
+        .roadmap-line::before {
+            content: '';
+            position: absolute;
+            right: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gold-orange);
+            opacity: 0.3;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            background: var(--royal-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+            border: 4px solid white;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* تخصيص مظهر الأزرار */
+        .option-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .option-btn:hover {
+            border-color: var(--royal-blue);
+            background-color: #f0f7ff;
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- الهيدر (الشعارات) -->
+    <header class="bg-white shadow-sm p-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <!-- شعار النادي (SVG Placeholder) -->
+            <div class="flex items-center gap-3">
+                <img src="Asset/Asset 2.png" alt="Club Logo" class="w-20 h-25">
+                <div>
+                    <h1 class="text-sm font-bold text-dark-navy">نادي مهارات المستقبل</h1>
+                    
+                </div>
+            </div>
+            
+            <!-- شعار الجامعة والعمادة -->
+            <div class="flex gap-4 opacity-80">
+                <div class="hidden md:block text-left border-l pl-4 border-gray-200">
+                                        <img src="Asset/Asset 3.png" alt="STU Logo" aria-posinset="medium" class="w-21 h-20">
+
+                </div>
+                                        <img src="Asset/Asset 1-8.png" alt="University Logo" class="w-20 h-25">
+
+           
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center p-6">
+        <div id="app" class="max-w-2xl w-full bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
+            
+            <!-- شاشة البداية -->
+            <div id="start-screen" class="p-8 md:p-12 text-center fade-in">
+                <div class="inline-block p-4 bg-blue-50 rounded-full mb-6">
+                    <svg class="w-12 h-12 text-royal-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
+                </div>
+                <h2 class="text-3xl font-bold text-dark-navy mb-4">بوصلة مهارات المستقبل</h2>
+                <p class="text-gray-600 text-lg mb-8">هنا تبدأ الرحلة.. مهارات اليوم، مستقبل الغد ✨</p>
+                <button onclick="startQuiz()" class="bg-royal-blue hover:bg-dark-navy text-white px-10 py-4 rounded-2xl font-bold text-lg transition shadow-lg w-full md:w-auto">
+                    اكتشف مسارك الآن
+                </button>
+            </div>
+
+            <!-- شاشة الاختبار -->
+            <div id="quiz-screen" class="hidden p-8 fade-in">
+                <div class="mb-8">
+                    <div class="flex justify-between items-center mb-2">
+                        <span id="progress-text" class="text-sm font-bold text-royal-blue">السؤال 1 من 5</span>
+                        <div class="w-1/2 bg-gray-100 h-2 rounded-full overflow-hidden">
+                            <div id="progress-bar" class="bg-gold-orange h-full transition-all duration-500" style="width: 20%"></div>
+                        </div>
+                    </div>
+                    <h3 id="question-text" class="text-xl font-bold text-dark-navy leading-relaxed">جاري تحميل السؤال...</h3>
+                </div>
+                <div id="options" class="grid grid-cols-1 gap-4">
+                    <!-- الخيارات تولد برمجياً -->
+                </div>
+            </div>
+
+            <!-- شاشة النتيجة والخطة -->
+            <div id="result-screen" class="hidden fade-in">
+                <div class="bg-dark-navy p-8 text-center text-white">
+                    <div class="text-gold font-bold mb-2 uppercase tracking-wider text-sm">المسار المهني المقترح</div>
+                    <h2 id="result-title" class="text-3xl font-bold">تحليل البيانات</h2>
+                    <p id="result-desc" class="mt-4 text-blue-100 max-w-lg mx-auto leading-relaxed"></p>
+                </div>
+                
+                <div class="p-8">
+                    <h3 class="text-xl font-bold text-dark-navy mb-8 flex items-center gap-2">
+                        <span class="w-8 h-8 bg-gold-orange rounded-lg flex items-center justify-center text-white">📅</span>
+                        خطة تطويرك خلال 6 أشهر
+                    </h3>
+                    
+                    <div id="roadmap-container" class="relative pr-8 roadmap-line">
+                        <!-- الخطوات تولد برمجياً -->
+                    </div>
+
+                    <div class="mt-10 pt-8 border-t border-gray-100 flex flex-col md:flex-row gap-4 items-center justify-between">
+                        <p class="text-sm text-gray-500 italic">هذه الخطة استرشادية مقدمة من مهارات المستقبل</p>
+                        <button onclick="location.reload()" class="text-royal-blue font-bold flex items-center gap-2 hover:underline">
+                            إعادة الاختبار 🔄
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="p-6 text-center text-gray-400 text-sm">
+        جميع الحقوق محفوظة لنادي مهارات المستقبل بجامعة جازان © 2024
+    </footer>
+
+    <script>
+        const quizData = [
+            {
+                id: 1,
+                question: "ما هو النشاط الذي تفضل قضاء وقتك فيه؟",
+                options: [
+                    { text: "تحليل المشاكل وإيجاد الحلول المنطقية", path: "tech" },
+                    { text: "تصميم أشياء جميلة وتنظيم الواجهات", path: "creative" },
+                    { text: "تنظيم الفرق وإدارة المشاريع", path: "management" },
+                    { text: "تحليل البيانات واستنتاج المعلومات", path: "data" }
+                ]
+            },
+            {
+                id: 2,
+                question: "ما هي الأداة التي تثير فضولك أكثر؟",
+                options: [
+                    { text: "لغات البرمجة (Python, JS)", path: "tech" },
+                    { text: "برامج التصميم (Figma, Adobe)", path: "creative" },
+                    { text: "أدوات التخطيط (Jira, Trello)", path: "management" },
+                    { text: "أدوات الإحصاء (Power BI, Excel)", path: "data" }
+                ]
+            },
+            {
+                id: 3,
+                question: "عندما تعمل في فريق، ما هو دورك المفضل؟",
+                options: [
+                    { text: "الشخص الذي يبني النظام ويصلح الأخطاء", path: "tech" },
+                    { text: "الشخص الذي يهتم بالمظهر وتجربة المستخدم", path: "creative" },
+                    { text: "القائد الذي يوزع المهام ويتابع الوقت", path: "management" },
+                    { text: "الذي يقدم التقارير والأرقام الدقيقة", path: "data" }
+                ]
+            },
+            {
+                id: 4,
+                question: "كيف تحب أن ترى نتائج عملك؟",
+                options: [
+                    { text: "تطبيق أو برنامج يعمل بكفاءة عالية", path: "tech" },
+                    { text: "منتج بصري جذاب وسهل الاستخدام", path: "creative" },
+                    { text: "تحقيق الأهداف والمشاريع في وقتها", path: "management" },
+                    { text: "رؤى واضحة تساعد في اتخاذ القرار", path: "data" }
+                ]
+            },
+            {
+                id: 5,
+                question: "ما هو التحدي الذي لا تمانع مواجهته؟",
+                options: [
+                    { text: "البحث عن خطأ برمجي (Bug) لساعات", path: "tech" },
+                    { text: "تعديل التصميم ليتوافق مع ذوق العميل", path: "creative" },
+                    { text: "حل النزاعات بين أعضاء الفريق", path: "management" },
+                    { text: "تنظيف مصفوفة بيانات ضخمة وغير مرتبة", path: "data" }
+                ]
+            }
+        ];
+
+        const pathDetails = {
+            tech: {
+                title: "تطوير البرمجيات (Software Development)",
+                desc: "أنت تمتلك عقلية برمجية تحليلية قوية، تميل لبناء الأنظمة وفهم كواليس التطبيقات والبرامج الذكية.",
+                roadmap: [
+                    { month: "الشهر 1-2: التأسيس البرمجي", details: "إتقان لغة Python أو JavaScript مع فهم الخوارزميات الأساسية. (مصدر: CS50 من هارفارد)" },
+                    { month: "الشهر 3-4: التخصص", details: "تعلم إطار عمل مثل React للمواقع أو Flutter للتطبيقات. (مصدر: Meta Professional Certificate)" },
+                    { month: "الشهر 5-6: المشاريع والشهادات", details: "بناء مشروع كامل (E-commerce) والحصول على شهادة AWS Cloud Practitioner." }
+                ]
+            },
+            creative: {
+                title: "تصميم تجربة المستخدم (UI/UX Design)",
+                desc: "لديك حس إبداعي عالي وتركيز على التفاصيل البصرية وتجربة الإنسان مع المنتج الرقمي.",
+                roadmap: [
+                    { month: "الشهر 1-2: أساسيات التصميم", details: "تعلم نظريات الألوان، الخطوط، وتجربة المستخدم (UX). (مصدر: Google UX Design Certificate)" },
+                    { month: "الشهر 3-4: أدوات التصميم", details: "احتراف أداة Figma وتصميم النماذج الأولية (Prototyping). (مصدر: Interaction Design Foundation)" },
+                    { month: "الشهر 5-6: البناء المهني", details: "بناء بورتفوليو (Portfolio) يضم 3 مشاريع واقعية ونشره على Behance." }
+                ]
+            },
+            management: {
+                title: "إدارة المشاريع التقنية (Product/Project Management)",
+                desc: "أنت شخص منظم، تمتلك مهارات قيادية وتواصل ممتازة، وتجيد رؤية الصورة الكاملة للمشاريع.",
+                roadmap: [
+                    { month: "الشهر 1-2: منهجيات العمل", details: "دراسة منهجية Agile و Scrum وكيفية إدارة الفرق. (مصدر: Scrum.org)" },
+                    { month: "الشهر 3-4: الأدوات المهنية", details: "إتقان أدوات Jira و ClickUp والتعرف على دورة حياة المنتج. (مصدر: LinkedIn Learning)" },
+                    { month: "الشهر 5-6: الشهادة الاحترافية", details: "التحضير لشهادة CAPM أو Google Project Management الاحترافية." }
+                ]
+            },
+            data: {
+                title: "تحليل البيانات (Data Analysis)",
+                desc: "لديك شغف بالأرقام والقدرة على استخراج قصص ومعلومات مفيدة من البيانات الخام الصامتة.",
+                roadmap: [
+                    { month: "الشهر 1-2: الأدوات الأساسية", details: "إتقان Excel المتقدم وبدء تعلم لغة SQL للاستعلام. (مصدر: DataCamp)" },
+                    { month: "الشهر 3-4: التصوير البياني", details: "تعلم أدوات Tableau أو Power BI لتحويل البيانات لرسوم. (مصدر: شهادة Google Data Analytics)" },
+                    { month: "الشهر 5-6: التحليل المتقدم", details: "تعلم أساسيات الإحصاء باستخدام مكتبات Python مثل Pandas و Numpy." }
+                ]
+            }
+        };
+
+        let currentQuestion = 0;
+        let scores = { tech: 0, creative: 0, management: 0, data: 0 };
+
+        function startQuiz() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const q = quizData[currentQuestion];
+            document.getElementById('question-text').innerText = q.question;
+            document.getElementById('progress-text').innerText = `السؤال ${currentQuestion + 1} من ${quizData.length}`;
+            document.getElementById('progress-bar').style.width = `${((currentQuestion + 1) / quizData.length) * 100}%`;
+
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+
+            q.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "option-btn text-right p-4 border-2 border-gray-100 rounded-2xl font-medium text-dark-navy hover:shadow-sm";
+                btn.innerText = opt.text;
+                btn.onclick = () => selectOption(opt.path);
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function selectOption(path) {
+            scores[path]++;
+            currentQuestion++;
+            
+            if (currentQuestion < quizData.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quiz-screen').classList.add('hidden');
+            const resultScreen = document.getElementById('result-screen');
+            resultScreen.classList.remove('hidden');
+
+            // تحديد الفائز
+            const winner = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+            const path = pathDetails[winner];
+
+            document.getElementById('result-title').innerText = path.title;
+            document.getElementById('result-desc').innerText = path.desc;
+
+            const roadmapDiv = document.getElementById('roadmap-container');
+            roadmapDiv.innerHTML = '';
+
+            path.roadmap.forEach(step => {
+                const stepElement = document.createElement('div');
+                stepElement.className = "mb-8 flex gap-4 items-start fade-in";
+                stepElement.innerHTML = `
+                    <div class="step-circle shrink-0">
+                        <span class="text-xs font-bold">●</span>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-royal-blue mb-1">${step.month}</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">${step.details}</p>
+                    </div>
+                `;
+                roadmapDiv.appendChild(stepElement);
+            });
+        }
+    </script>
+</body>
+</html>
